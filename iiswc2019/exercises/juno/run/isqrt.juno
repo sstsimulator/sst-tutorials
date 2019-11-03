@@ -1,0 +1,17 @@
+LDA $10000 r2
+LDA $10000 r3
+LDA $10000 r4
+LDA $2     r5
+# n  = r2
+# xk = r4 
+# n/xk = r6
+# xk + x/xk = r7
+START:
+DIV r2 r4 r6
+ADD r6 r4 r7
+DIV r7 r5 r4
+MUL r4 r4 r6
+SUB r2 r6 r7
+JGTZ r7 START
+JLTZ r7 START
+HALT

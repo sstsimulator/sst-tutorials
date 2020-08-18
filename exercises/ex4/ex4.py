@@ -1,6 +1,11 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
+
 from utils import *
 
 
@@ -25,19 +30,22 @@ if 'ariel' in config.app:
     arielCPU = sst.Component("A0", "ariel.ariel")
     arielCPU.addParams(config.getCoreConfig(0))
 
-print "Configuring Network-on-Chip..."
+print("Configuring Network-on-Chip...")
 
 router = sst.Component("router", "merlin.hr_router")
 router.addParams(config.getRouterParams())
 router.addParam('id', 0)
+router.setSubComponent("topology", "merlin.singlerouter")
 
 # Connect Cores & caches
 for next_core_id in range(config.total_cores):
-    print "Configuring core %d..."%next_core_id
+    print("Configuring core %d..."%next_core_id)
 
     if 'miranda' in config.app:
         cpu = sst.Component("cpu%d"%(next_core_id), "miranda.BaseCPU")
         cpu.addParams(config.getCoreConfig(next_core_id))
+        gen = cpu.setSubComponent("generator", config.app)
+        gen.addParams(config.getCoreGenConfig(next_core_id))
         cpuPort = "cache_link"
     elif 'ariel' in config.app:
         cpu = arielCPU
@@ -48,7 +56,6 @@ for next_core_id in range(config.total_cores):
 
     l2 = sst.Component("l2cache_%d"%(next_core_id), "memHierarchy.Cache")
     l2.addParams(config.getL2Params())
-    l2.addParam( "network_address", next_core_id )
 
     connect("cpu_cache_link_%d"%next_core_id,
             cpu, cpuPort,
@@ -66,15 +73,16 @@ for next_core_id in range(config.total_cores):
             config.ring_latency)
 
 # Connect Memory and Memory Controller to the ring
-mem = sst.Component("memory", "memHierarchy.MemController")
-mem.addParams(config.getMemParams())
+memctrl = sst.Component("memory", "memHierarchy.MemController")
+memctrl.addParams(config.getMemCtrlParams())
+memory = memctrl.setSubComponent("backend", config.getMemBackendType())
+memory.addParams(config.getMemBackendParams())
 
 dc = sst.Component("dc", "memHierarchy.DirectoryController")
 dc.addParams(config.getDCParams(0))
-dc.addParam("network_address", config.total_cores)
 
 connect("mem_link_0",
-        mem, "direct_link",
+        memctrl, "direct_link",
         dc, "memory",
         config.ring_latency)
 
@@ -95,4 +103,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the EX4 model"
+print("Completed configuring the EX4 model")

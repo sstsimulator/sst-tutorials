@@ -1,6 +1,10 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 from utils import *
 
 
@@ -33,42 +37,27 @@ if 'ariel' in config.app:
     arielCPU = sst.Component("A0", "ariel.ariel")
     arielCPU.addParams(config.getCoreConfig(0))
 
-print "Configuring Ring Network-on-Chip..."
+print("Configuring Ring Network-on-Chip...")
 
 for next_ring_stop in range(config.num_ring_stops):
     ring_rtr = sst.Component("rtr.%d"%next_ring_stop, "merlin.hr_router")
     ring_rtr.addParams(config.getRingParams())
     ring_rtr.addParam( "id", next_ring_stop)
+    topo = ring_rtr.setSubComponent("topology", "merlin.torus")
+    topo.addParams(config.getRingTopoParams())
+
     router_map["rtr.%d"%next_ring_stop] = ring_rtr
 
 for next_ring_stop in range(config.num_ring_stops):
-    if next_ring_stop == 0:
-        # First stop
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.0"], "port0",
-                router_map["rtr.1"], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.0"], "port1",
-                router_map["rtr.%d"%(config.num_ring_stops-1)], "port0", config.ring_latency)
-    elif next_ring_stop == (config.num_ring_stops) - 1:
-        # Last Stop
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port0",
-                router_map["rtr.0"], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port1",
-                router_map["rtr.%d"%(next_ring_stop-1)], "port0", config.ring_latency)
+    if next_ring_stop == config.num_ring_stops - 1:
+        rtr_link = sst.Link("rtr_" + str(next_ring_stop))
+        rtr_link.connect( (router_map["rtr." + str(next_ring_stop)], "port0", config.ring_latency), (router_map["rtr.0"], "port1", config.ring_latency) )
     else:
-        # Middle stops
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port0",
-                router_map["rtr.%d"%(next_ring_stop+1)], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port1",
-                router_map["rtr.%d"%(next_ring_stop-1)], "port0", config.ring_latency)
+        rtr_link = sst.Link("rtr_" + str(next_ring_stop))
+        rtr_link.connect( (router_map["rtr." + str(next_ring_stop)], "port0", config.ring_latency), (router_map["rtr." + str(next_ring_stop+1)], "port1", config.ring_latency) )
 
 for next_group in range(config.groups):
-    print "Configuring core and memory controller group %d..."%next_group
+    print("Configuring core and memory controller group %d..."%next_group)
 
     sst.pushNamePrefix("g%d"%next_group)
 
@@ -76,12 +65,11 @@ for next_group in range(config.groups):
     for next_active_core in range(config.cores_per_group):
         # Connect L3 cache blocks to ring
         for next_l3_cache_block in range(config.l3_cache_per_core):
-            print "Creating L3 cache block %d..."%(next_l3_cache_id)
+            print("Creating L3 cache block %d..."%(next_l3_cache_id))
 
             l3cache = sst.Component("l3cache_%d"%(next_l3_cache_id), "memHierarchy.Cache")
             l3cache.addParams(config.getL3Params())
             l3cache.addParams({
-                "network_address" : next_network_id,
                 "slice_id" : next_l3_cache_id
                 })
 
@@ -93,10 +81,12 @@ for next_group in range(config.groups):
             next_l3_cache_id = next_l3_cache_id + 1
             next_network_id = next_network_id + 1
 
-        print "Creating Core %d in Group %d"%(next_active_core, next_group)
+        print("Creating Core %d in Group %d"%(next_active_core, next_group))
         if 'miranda' in config.app:
             cpu = sst.Component("cpu%d"%(next_core_id), "miranda.BaseCPU")
             cpu.addParams(config.getCoreConfig(next_core_id))
+            gen = cpu.setSubComponent("generator", config.app)
+            gen.addParams(config.getCoreGenConfig(next_core_id))
             cpuPort = "cache_link"
         elif 'ariel' in config.app:
             cpu = arielCPU
@@ -107,7 +97,6 @@ for next_group in range(config.groups):
 
         l2 = sst.Component("l2cache_%d"%(next_core_id), "memHierarchy.Cache")
         l2.addParams(config.getL2Params())
-        l2.addParam( "network_address", next_network_id )
 
         connect("cpu_cache_link_%d"%next_core_id,
                 cpu, cpuPort,
@@ -129,13 +118,12 @@ for next_group in range(config.groups):
 
     # Connect any remaining L3 cache blocks
     for next_l3_cache_block in range(config.l3_cache_remainder):
-        print "Creating L3 cache block: %d..."%(next_l3_cache_id)
+        print("Creating L3 cache block: %d..."%(next_l3_cache_id))
 
         l3cache = sst.Component("l3cache_%d"%(next_l3_cache_id), "memHierarchy.Cache")
         l3cache.addParams(config.getL3Params())
 
         l3cache.addParams({
-            "network_address" : next_network_id,
             "slice_id" : next_l3_cache_id
             })
 
@@ -149,15 +137,16 @@ for next_group in range(config.groups):
 
     # Connect Memory and Memory Controllers to the ring
     for next_mem_ctrl in range(config.memory_controllers_per_group):	
-        mem = sst.Component("memory_%d"%(next_memory_ctrl_id), "memHierarchy.MemController")
-        mem.addParams(config.getMemParams())
+        memctrl = sst.Component("memory_%d"%(next_memory_ctrl_id), "memHierarchy.MemController")
+        memctrl.addParams(config.getMemCtrlParams())
+        memory = memctrl.setSubComponent("backend", config.getMemBackendType())
+        memory.addParams(config.getMemBackendParams())
 
         dc = sst.Component("dc_%d"%(next_memory_ctrl_id), "memHierarchy.DirectoryController")
         dc.addParams(config.getDCParams(next_memory_ctrl_id))
-        dc.addParam("network_address", next_network_id)
 
         connect("mem_link_%d"%next_memory_ctrl_id,
-                mem, "direct_link",
+                memctrl, "direct_link",
                 dc, "memory",
                 config.ring_latency)
 
@@ -183,4 +172,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the SST Sandy Bridge model"
+print("Completed configuring the SST Sandy Bridge model")

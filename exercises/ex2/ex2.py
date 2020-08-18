@@ -1,6 +1,11 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
+
 from utils import *
 
 
@@ -22,10 +27,12 @@ statLevel = args.statlevel
 config = Config(cfgFile, verbose=verbose)
 
 # Connect Cores & caches
-print "Configuring CPU..."
+print("Configuring CPU...")
 
 cpu = sst.Component("cpu", "miranda.BaseCPU")
 cpu.addParams(config.getCoreConfig(0))
+gen = cpu.setSubComponent("generator", config.app)
+gen.addParams(config.getCoreGenConfig(0))
 
 l1 = sst.Component("l1cache", "memHierarchy.Cache")
 l1.addParams(config.getL1Params())
@@ -45,13 +52,15 @@ connect("l2cache_link",
 
 
 # Connect Memory and Memory Controller to the ring
-print "Configuring Memory"
-mem = sst.Component("memory", "memHierarchy.MemController")
-mem.addParams(config.getMemParams())
+print("Configuring Memory")
+memctrl = sst.Component("memory", "memHierarchy.MemController")
+memctrl.addParams(config.getMemCtrlParams())
+memory = memctrl.setSubComponent("backend", config.getMemBackendType())
+memory.addParams(config.getMemBackendParams())
 
 connect("l2cache_mem_link",
         l2, "low_network_0",
-        mem, "direct_link",
+        memctrl, "direct_link",
         config.cache_link_latency)
 
 
@@ -67,4 +76,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the EX2 model"
+print("Completed configuring the EX2 model")

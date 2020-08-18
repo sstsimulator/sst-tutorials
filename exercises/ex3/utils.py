@@ -1,6 +1,9 @@
 import sst
 import os
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 
 
 
@@ -35,9 +38,10 @@ class Config:
         self.ring_flit_size = cp.get('Network', 'flit_size')
 
         self.app = cp.get('CPU', 'application')
-        self.coreConfigParams = dict(cp.items(self.app))
+        self.coreConfigAppParams = dict(cp.items(self.app))
         if self.app == 'miranda.STREAMBenchGenerator':
-            self.coreConfig = self._streamCoreConfig
+            self.coreConfig = self._mirandaCoreConfig
+            self.coreGenConfig = self._streamGenConfig
         else:
             raise Exception("Unknown application '%s'"%app)
 
@@ -49,17 +53,23 @@ class Config:
         params.update(self.coreConfig(core_id))
         return params
 
-    def _streamCoreConfig(self, core_id):
-        streamN = int(self.coreConfigParams['total_streamn'])
+    def _mirandaCoreConfig(self, core_id):
         params = dict()
-        params['max_reqs_cycle'] =  self.max_reqs_cycle
-        params['generator'] = 'miranda.STREAMBenchGenerator'
-        params['generatorParams.n'] = streamN / self.total_cores
-        params['generatorParams.start_a'] = ( (streamN * 32) / self.total_cores ) * core_id
-        params['generatorParams.start_b'] = ( (streamN * 32) / self.total_cores ) * core_id + (streamN * 32)
-        params['generatorParams.start_c'] = ( (streamN * 32) / self.total_cores ) * core_id + (2 * streamN * 32)
-        params['generatorParams.operandwidth'] = 32
-        params['generatorParams.verbose'] = int(self.verbose)
+        params['max_reqs_cycle'] = self.max_reqs_cycle
+        return params
+    
+    def getCoreGenConfig(self, core_id):
+        return self.coreGenConfig(core_id)
+
+    def _streamGenConfig(self, core_id):
+        streamN = int(self.coreConfigAppParams['total_streamn'])
+        params = dict()
+        params['n'] = streamN // self.total_cores
+        params['start_a'] = ( (streamN * 32) // self.total_cores ) * core_id
+        params['start_b'] = ( (streamN * 32) // self.total_cores ) * core_id + (streamN * 32)
+        params['start_c'] = ( (streamN * 32) // self.total_cores ) * core_id + (2 * streamN * 32)
+        params['operandwidth'] = 32
+        params['verbose'] = int(self.verbose)
         return params
 
     def getL1Params(self):
@@ -90,30 +100,36 @@ class Config:
             "associativity": 8,
             "access_latency_cycles": 6,
             "mshr_num_entries" : 16,
-            "network_bw": self.ring_bandwidth,
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
             # Default params
             #"cache_line_size": 64,
             #"coherence_protocol": self.coherence_protocol,
             #"replacement_policy": "lru",
             })
 
-    def getMemParams(self):
+    def getMemCtrlParams(self):
         return dict({
-            "backend" : "memHierarchy.simpleMem",
-            "backend.access_time" : "30ns",
-            "backend.mem_size" : self.memory_capacity,
             "clock" : self.memory_clock,
-            "network_bw": self.ring_bandwidth,
-            "do_not_back" : 1,
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
+            "backing" : "none"
+            })
+
+    def getMemBackendType(self):
+        return "memHierarchy.simpleMem"
+
+    def getMemBackendParams(self):
+        return dict({
+            "access_time" : "30ns",
+            "mem_size" : self.memory_capacity,
             })
 
     def getDCParams(self, dc_id):
         return dict({
             "entry_cache_size": 256*1024*1024, #Entry cache size of mem/blocksize
             "clock": self.memory_clock,
-            "network_bw": self.ring_bandwidth,
             "addr_range_start" : 0,
-            "addr_range_end" : (int(filter(str.isdigit, self.memory_capacity)) * 1024 * 1024),
+            "addr_range_end" : (int(''.join(filter(str.isdigit, self.memory_capacity))) * 1024 * 1024),
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
             # Default params
             # "coherence_protocol": coherence_protocol,
             })
@@ -128,5 +144,4 @@ class Config:
             "flit_size" : self.ring_flit_size,
             "output_buf_size" : "2KB",
             "link_bw" : self.ring_bandwidth,
-            "topology" : "merlin.singlerouter"
         })

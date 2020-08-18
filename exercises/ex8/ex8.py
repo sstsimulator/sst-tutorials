@@ -1,6 +1,10 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 from utils import *
 from sst import merlin
 
@@ -88,7 +92,7 @@ class EndpointCreator(merlin.EndPoint):
         elif nodeType == EndpointCreator._MEMORY:
             ret = self.buildMemory(nID)
         else:
-            print "Unknonw Next item type:  ", nodeType
+            print("Unknown Next item type:  ", nodeType)
             sst.exit(1)
 
         sst.popNamePrefix()
@@ -97,11 +101,13 @@ class EndpointCreator(merlin.EndPoint):
 
     def buildCore(self, nID):
         local_core_id = self.next_core_id % self.config.cores_per_group
-        print "Creating Core %d in Group %d"%(local_core_id, self.next_group_id)
+        print("Creating Core %d in Group %d"%(local_core_id, self.next_group_id))
 
         if 'miranda' in config.app:
             cpu = sst.Component("cpu%d"%(self.next_core_id), "miranda.BaseCPU")
             cpu.addParams(self.config.getCoreConfig(self.next_core_id))
+            gen = cpu.setSubComponent("generator", config.app)
+            gen.addParams(self.config.getCoreGenConfig(self.next_core_id))
             cpuPort = "cache_link"
         elif 'ariel' in config.app:
             cpu = arielCPU
@@ -112,7 +118,6 @@ class EndpointCreator(merlin.EndPoint):
 
         l2 = sst.Component("l2cache_%d"%(self.next_core_id), "memHierarchy.Cache")
         l2.addParams(config.getL2Params())
-        l2.addParam( "network_address", nID )
 
         connect("cpu_cache_link_%d"%self.next_core_id,
                 cpu, cpuPort,
@@ -133,7 +138,6 @@ class EndpointCreator(merlin.EndPoint):
         l3cache.addParams(config.getL3Params())
 
         l3cache.addParams({
-            "network_address" : nID,
             "slice_id" : self.next_l3_cache_id
             })
         self.next_l3_cache_id += 1
@@ -141,15 +145,16 @@ class EndpointCreator(merlin.EndPoint):
         return (l3cache, "directory", self.config.ring_latency)
 
     def buildMemory(self, nID):
-        mem = sst.Component("memory_%d"%(self.next_memory_ctrl_id), "memHierarchy.MemController")
-        mem.addParams(self.config.getMemParams())
+        memctrl = sst.Component("memory_%d"%(self.next_memory_ctrl_id), "memHierarchy.MemController")
+        memctrl.addParams(config.getMemCtrlParams())
+        memory = memctrl.setSubComponent("backend", config.getMemBackendType())
+        memory.addParams(config.getMemBackendParams())
 
         dc = sst.Component("dc_%d"%(self.next_memory_ctrl_id), "memHierarchy.DirectoryController")
         dc.addParams(self.config.getDCParams(self.next_memory_ctrl_id))
-        dc.addParam("network_address", nID)
 
         connect("mem_link_%d"%self.next_memory_ctrl_id,
-                mem, "direct_link",
+                memctrl, "direct_link",
                 dc, "memory",
                 self.config.ring_latency)
 
@@ -159,21 +164,18 @@ class EndpointCreator(merlin.EndPoint):
 
 
 
-print "Configuring Ring Network-on-Chip..."
+print("Configuring Ring Network-on-Chip...")
 
 # Hacky way to pass parameters into the Topology Builder:
 sst.merlin._params["num_dims"] = 1
 sst.merlin._params["link_lat"] = config.ring_latency
 sst.merlin._params.update(config.getRingParams())
-
-
-
+sst.merlin._params.update(config.getRingTopoParams())
 
 topoGen = merlin.topoTorus()
 topoGen.prepParams()
 topoGen.setEndPoint(EndpointCreator(config))
 topoGen.build()
-
 
 # ===============================================================================
 
@@ -187,4 +189,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the SST Sandy Bridge model"
+print("Completed configuring the SST Sandy Bridge model")

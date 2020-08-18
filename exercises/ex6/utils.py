@@ -1,6 +1,10 @@
 import sst
 import os
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
+ 
 
 
 
@@ -38,9 +42,10 @@ class Config:
 
 
         self.app = cp.get('CPU', 'application')
-        self.coreConfigParams = dict(cp.items(self.app))
+        self.coreConfigAppParams = dict(cp.items(self.app))
         if self.app == 'miranda.STREAMBenchGenerator':
-            self.coreConfig = self._streamCoreConfig
+            self.coreConfig = self._mirandaCoreConfig
+            self.coreGenConfig = self._streamGenConfig
         elif 'ariel' in self.app:
             self.coreConfig = self._arielCoreConfig
         else:
@@ -61,14 +66,17 @@ class Config:
             "maxissuepercycle"    : self.max_reqs_cycle,
             "pipetimeout"         : 0,
             "appargcount"         : 0,
-            "memorylevels"        : 1,
             "arielinterceptcalls" : 1,
             "arielmode"           : 1,
-            "pagecount0"          : 1048576,
             "corecount"           : self.total_cores,
-            "defaultlevel"        : 0,
+            # Ariel has a 'memory manager' SubComponent that handles virtual to physical mapping. 
+            # Tell the default manager how many pages it has
+            "memmgr.pagecount0"   : 1048576,
+            # The -ifeellucky option is required for Pin 2.14 to work with modern processors. May be removed with newer Pin versions.
+            "launchparamcount"    : 1,
+            "launchparam0"        : "-ifeellucky",
             })
-        params.update(self.coreConfigParams)
+        params.update(self.coreConfigAppParams)
         if 'executable' not in params:
             if 'OMP_EXE' in os.environ:
                 params['OMP_EXE'] = os.environ['OMP_EXE']
@@ -76,17 +84,23 @@ class Config:
                 raise Exception("No Ariel executable specified")
         return params
 
-    def _streamCoreConfig(self, core_id):
-        streamN = int(self.coreConfigParams['total_streamn'])
+    def _mirandaCoreConfig(self, core_id):
         params = dict()
         params['max_reqs_cycle'] =  self.max_reqs_cycle
-        params['generator'] = 'miranda.STREAMBenchGenerator'
-        params['generatorParams.n'] = streamN / self.total_cores
-        params['generatorParams.start_a'] = ( (streamN * 32) / self.total_cores ) * core_id
-        params['generatorParams.start_b'] = ( (streamN * 32) / self.total_cores ) * core_id + (streamN * 32)
-        params['generatorParams.start_c'] = ( (streamN * 32) / self.total_cores ) * core_id + (2 * streamN * 32)
-        params['generatorParams.operandwidth'] = 32
-        params['generatorParams.verbose'] = int(self.verbose)
+        return params
+    
+    def getCoreGenConfig(self, core_id):
+        return self.coreGenConfig(core_id)
+
+    def _streamGenConfig(self, core_id):
+        streamN = int(self.coreConfigAppParams['total_streamn'])
+        params = dict()
+        params['n'] = streamN // self.total_cores
+        params['start_a'] = ( (streamN * 32) // self.total_cores ) * core_id
+        params['start_b'] = ( (streamN * 32) // self.total_cores ) * core_id + (streamN * 32)
+        params['start_c'] = ( (streamN * 32) // self.total_cores ) * core_id + (2 * streamN * 32)
+        params['operandwidth'] = 32
+        params['verbose'] = int(self.verbose)
         return params
 
     def getL1Params(self):
@@ -117,21 +131,27 @@ class Config:
             "associativity": 8,
             "access_latency_cycles": 6,
             "mshr_num_entries" : 16,
-            "network_bw": self.ring_bandwidth,
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
             # Default params
             #"cache_line_size": 64,
             #"coherence_protocol": self.coherence_protocol,
             #"replacement_policy": "lru",
             })
 
-    def getMemParams(self):
+    def getMemCtrlParams(self):
         return dict({
-            "backend" : "memHierarchy.simpleMem",
-            "backend.access_time" : "30ns",
-            "backend.mem_size" : "%d%s"%((int(filter(str.isdigit, self.memory_capacity)) / self.num_memory_controllers), filter(str.isalpha, self.memory_capacity)),
             "clock" : self.memory_clock,
-            "network_bw": self.ring_bandwidth,
-            "do_not_back" : 1,
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
+            "backing" : "none",
+            })
+    
+    def getMemBackendType(self):
+        return "memHierarchy.simpleMem"
+
+    def getMemBackendParams(self):
+        return dict({
+            "access_time" : "30ns",
+            "mem_size" : "%d%s"%((int(''.join(filter(str.isdigit, self.memory_capacity))) // self.num_memory_controllers), (''.join(filter(str.isalpha, self.memory_capacity)))),
             })
 
     def getDCParams(self, dc_id):
@@ -140,25 +160,28 @@ class Config:
             "interleave_step": "%dB"%(self.num_memory_controllers * (self.mem_interleave_size)),
             "entry_cache_size": 256*1024*1024, #Entry cache size of mem/blocksize
             "clock": self.memory_clock,
-            "network_bw": self.ring_bandwidth,
+            "memNIC.network_bw": self.ring_bandwidth, # This parameter belongs to the MemNIC SubComponent
             "addr_range_start" : dc_id * self.mem_interleave_size,
-            "addr_range_end" : (int(filter(str.isdigit, self.memory_capacity)) * 1024 * 1024) - (self.num_memory_controllers * self.mem_interleave_size) + (dc_id * self.mem_interleave_size)
+            "addr_range_end" : (int(''.join(filter(str.isdigit, self.memory_capacity))) * 1024 * 1024) - (self.num_memory_controllers * self.mem_interleave_size) + (dc_id * self.mem_interleave_size)
             # Default params
             # "coherence_protocol": coherence_protocol,
             })
 
     def getRingParams(self):
         return dict({
-            "torus:shape" : self.num_ring_stops,
             "output_latency" : "25ps",
             "xbar_bw" : self.ring_bandwidth,
             "input_buf_size" : "2KB",
             "input_latency" : "25ps",
             "num_ports" : "3",
-            "torus:local_ports" : "1",
             "flit_size" : self.ring_flit_size,
             "output_buf_size" : "2KB",
             "link_bw" : self.ring_bandwidth,
-            "torus:width" : "1",
-            "topology" : "merlin.torus"
+        })
+
+    def getRingTopoParams(self):
+        return dict({
+            "shape" : self.num_ring_stops,
+            "local_ports" : 1,
+            "width" : "1",
         })

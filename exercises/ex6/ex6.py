@@ -1,6 +1,10 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 from utils import *
 
 
@@ -32,47 +36,34 @@ if 'ariel' in config.app:
     arielCPU = sst.Component("A0", "ariel.ariel")
     arielCPU.addParams(config.getCoreConfig(0))
 
-print "Configuring Ring Network-on-Chip..."
+print("Configuring Ring Network-on-Chip...")
 
 for next_ring_stop in range(config.num_ring_stops):
     ring_rtr = sst.Component("rtr.%d"%next_ring_stop, "merlin.hr_router")
     ring_rtr.addParams(config.getRingParams())
     ring_rtr.addParam( "id", next_ring_stop)
+    topo = ring_rtr.setSubComponent("topology", "merlin.torus")
+    topo.addParams(config.getRingTopoParams())
+
     router_map["rtr.%d"%next_ring_stop] = ring_rtr
 
 for next_ring_stop in range(config.num_ring_stops):
-    if next_ring_stop == 0:
-        # First stop
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.0"], "port0",
-                router_map["rtr.1"], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.0"], "port1",
-                router_map["rtr.%d"%(config.num_ring_stops-1)], "port0", config.ring_latency)
-    elif next_ring_stop == (config.num_ring_stops) - 1:
-        # Last Stop
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port0",
-                router_map["rtr.0"], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port1",
-                router_map["rtr.%d"%(next_ring_stop-1)], "port0", config.ring_latency)
+    if next_ring_stop == config.num_ring_stops - 1:
+        rtr_link = sst.Link("rtr_" + str(next_ring_stop))
+        rtr_link.connect( (router_map["rtr." + str(next_ring_stop)], "port0", config.ring_latency), (router_map["rtr.0"], "port1", config.ring_latency) )
     else:
-        # Middle stops
-        connect("rtr_pos_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port0",
-                router_map["rtr.%d"%(next_ring_stop+1)], "port1", config.ring_latency)
-        connect("rtr_neg_%d"%next_ring_stop,
-                router_map["rtr.%d"%next_ring_stop], "port1",
-                router_map["rtr.%d"%(next_ring_stop-1)], "port0", config.ring_latency)
+        rtr_link = sst.Link("rtr_" + str(next_ring_stop))
+        rtr_link.connect( (router_map["rtr." + str(next_ring_stop)], "port0", config.ring_latency), (router_map["rtr." + str(next_ring_stop+1)], "port1", config.ring_latency) )
 
 # Connect Cores & caches
 for next_active_core in range(config.total_cores):
-    print "Configuring core %d..."%next_active_core
+    print("Configuring core %d..."%next_active_core)
 
     if 'miranda' in config.app:
         cpu = sst.Component("cpu%d"%(next_core_id), "miranda.BaseCPU")
         cpu.addParams(config.getCoreConfig(next_core_id))
+        gen = cpu.setSubComponent("generator", config.app)
+        gen.addParams(config.getCoreGenConfig(next_core_id))
         cpuPort = "cache_link"
     elif 'ariel' in config.app:
         cpu = arielCPU
@@ -83,7 +74,6 @@ for next_active_core in range(config.total_cores):
 
     l2 = sst.Component("l2cache_%d"%(next_core_id), "memHierarchy.Cache")
     l2.addParams(config.getL2Params())
-    l2.addParam( "network_address", next_network_id )
 
     connect("cpu_cache_link_%d"%next_core_id,
             cpu, cpuPort,
@@ -105,15 +95,16 @@ for next_active_core in range(config.total_cores):
 
 # Connect Memory and Memory Controllers to the ring
 for next_mem_ctrl in range(config.num_memory_controllers):	
-    mem = sst.Component("memory_%d"%(next_memory_ctrl_id), "memHierarchy.MemController")
-    mem.addParams(config.getMemParams())
+    memctrl = sst.Component("memory_%d"%(next_memory_ctrl_id), "memHierarchy.MemController")
+    memctrl.addParams(config.getMemCtrlParams())
+    memory = memctrl.setSubComponent("backend", config.getMemBackendType())
+    memory.addParams(config.getMemBackendParams())
 
     dc = sst.Component("dc_%d"%(next_memory_ctrl_id), "memHierarchy.DirectoryController")
     dc.addParams(config.getDCParams(next_memory_ctrl_id))
-    dc.addParam("network_address", next_network_id)
 
     connect("mem_link_%d"%next_memory_ctrl_id,
-            mem, "direct_link",
+            memctrl, "direct_link",
             dc, "memory",
             config.ring_latency)
 
@@ -137,4 +128,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the EX6 model"
+print("Completed configuring the EX6 model")

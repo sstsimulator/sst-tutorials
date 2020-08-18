@@ -1,6 +1,10 @@
 import sst
 import os
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:     # Python 3.x
+    import configparser as ConfigParser
+    from functools import reduce
 from sst import merlin
 
 
@@ -22,25 +26,28 @@ class CPUConfig:
         self.next_id = 0
 
         if self.app == 'miranda.STREAMBenchGenerator':
-            self.coreConfig = self._streamCoreConfig
+            self.coreConfig = self._mirandaCoreConfig
+            self.coreGenConfig = self._streamGenConfig
         else:
             raise Exception("Unknown application '%s'"%app)
 
     def updateTotalCores(self, nCores):
         self.total_cores = nCores
 
-
-    def _streamCoreConfig(self, core_id):
-        streamN = int(self.applicationParams['total_streamn'])
+    def _mirandaCoreConfig(self, core_id):
         params = dict()
         params['max_reqs_cycle'] =  self.cfg['max_reqs_cycle']
-        params['generator'] = 'miranda.STREAMBenchGenerator'
-        params['generatorParams.n'] = streamN / self.total_cores
-        params['generatorParams.start_a'] = ( (streamN * 32) / self.total_cores ) * core_id
-        params['generatorParams.start_b'] = ( (streamN * 32) / self.total_cores ) * core_id + (streamN * 32)
-        params['generatorParams.start_c'] = ( (streamN * 32) / self.total_cores ) * core_id + (2 * streamN * 32)
-        params['generatorParams.operandwidth'] = 32
-        #params['generatorParams.verbose'] = int(self.verbose)
+        return params
+
+    def _streamGenConfig(self, core_id):
+        streamN = int(self.applicationParams['total_streamn'])
+        params = dict()
+        params['n'] = streamN // self.total_cores
+        params['start_a'] = ( (streamN * 32) // self.total_cores ) * core_id
+        params['start_b'] = ( (streamN * 32) // self.total_cores ) * core_id + (streamN * 32)
+        params['start_c'] = ( (streamN * 32) // self.total_cores ) * core_id + (2 * streamN * 32)
+        params['operandwidth'] = 32
+        #params['verbose'] = int(self.verbose)
         return params
 
     def build(self, nID, netCfg):
@@ -48,6 +55,8 @@ class CPUConfig:
         cpu.addParams(self.coreConfig(self.next_id))
         cpu.addParam("clock", self.cfg["clock"])
         cpuPort = "cache_link"
+        gen =cpu.setSubComponent("generator", self.app)
+        gen.addParams(self.coreGenConfig(self.next_id))
 
         l1 = sst.Component("l1cache_%d"%(self.next_id), "memHierarchy.Cache")
         l1.addParams(dict({
@@ -77,12 +86,11 @@ class CPUConfig:
             "associativity": 8,
             "access_latency_cycles": 6,
             "mshr_num_entries" : 16,
-            "network_bw": netCfg.cfg["bandwidth"],
+            "memNIC.network_bw": netCfg.cfg["bandwidth"],   # This parameter belongs to the MemNIC SubComponent
             # Default params
             #"cache_line_size": 64,
             #"coherence_protocol": self.coherence_protocol,
             #"replacement_policy": "lru",
-            "network_address": nID 
             }))
 
         connect("cpu_cache_link_%d"%self.next_id,
@@ -108,30 +116,31 @@ class MemConfig:
         self.num_MC = nMC
 
     def build(self, nID, netCfg):
-        mem = sst.Component("memory_%d"%(self.next_id), "memHierarchy.MemController")
-        mem.addParams(dict({
-            "backend" : "memHierarchy.simpleMem",
-            "backend.access_time" : "30ns",
-            "backend.mem_size" : "%d%s"%(int(filter(str.isdigit, self.cfg["capacity"])) / (self.num_MC), filter(str.isalpha, self.cfg["capacity"])),
+        memctrl = sst.Component("memory_%d"%(self.next_id), "memHierarchy.MemController")
+        memctrl.addParams(dict({
             "clock" : self.cfg["clock"],
-            "network_bw": self.cfg["network_bw"],
-            "do_not_back" : 1,
+            "memNIC.network_bw": self.cfg["network_bw"],   # This parameter belongs to the MemNIC SubComponent
+            "backing" : "none",
+            }))
+        memory = memctrl.setSubComponent("backend", "memHierarchy.simpleMem")    
+        memory.addParams(dict({
+            "access_time" : "30ns",
+            "mem_size" : "%d%s"%(int(''.join(filter(str.isdigit, self.cfg["capacity"]))) // (self.num_MC), (''.join(filter(str.isalpha, self.cfg["capacity"])))),
             }))
 
         dc = sst.Component("dc_%d"%(self.next_id), "memHierarchy.DirectoryController")
         dc.addParams(dict({
-            "memNIC.interleave_size": "%dB"%int(self.cfg["interleave_size"]),
-            "memNIC.interleave_step": "%dB"%(self.num_MC * int(self.cfg["interleave_size"])),
+            "interleave_size": "%dB"%int(self.cfg["interleave_size"]),
+            "interleave_step": "%dB"%(self.num_MC * int(self.cfg["interleave_size"])),
             "entry_cache_size": 256*1024*1024, #Entry cache size of mem/blocksize
             "clock": self.cfg["clock"],
-            "memNIC.network_bw": self.cfg["network_bw"],
-            "memNIC.addr_range_start" : self.next_id * int(self.cfg["interleave_size"]),
-            "memNIC.addr_range_end" : (int(filter(str.isdigit, self.cfg["capacity"])) * 1024 * 1024) - (self.num_MC * int(self.cfg["interleave_size"])) + (self.next_id * int(self.cfg["interleave_size"])),
-            "network_address": nID
+            "memNIC.network_bw": self.cfg["network_bw"],   # This parameter belongs to the MemNIC SubComponent
+            "addr_range_start" : self.next_id * int(self.cfg["interleave_size"]),
+            "addr_range_end" : (int(''.join(filter(str.isdigit, self.cfg["capacity"]))) * 1024 * 1024) - (self.num_MC * int(self.cfg["interleave_size"])) + (self.next_id * int(self.cfg["interleave_size"])),
             }))
 
         connect("mem_link_%d"%self.next_id,
-                mem, "direct_link",
+                memctrl, "direct_link",
                 dc, "memory",
                 netCfg.cfg["latency"])
 
@@ -172,7 +181,7 @@ class NetConfig:
 
     def __init__(self, cp, cfgGroup='Network', cfgPrefix=''):
         self.cfg = { key[len(cfgPrefix):]: value
-                    for (key, value) in dict(cp.items(cfgGroup)).iteritems()
+                    for (key, value) in dict(cp.items(cfgGroup)).items()
                     if key[:len(cfgPrefix)] == cfgPrefix }
         if "topology" in self.cfg:
             self.topo = self.buildTopo()
@@ -182,7 +191,7 @@ class NetConfig:
     def buildTopo(self):
         topo_type = self.cfg["topology"] + "_"
         topoParams = { key[len(topo_type):]: value
-                    for (key, value) in self.cfg.iteritems()
+                    for (key, value) in self.cfg.items()
                     if key[:len(topo_type)] == topo_type }
 
         if topo_type == "mesh_":
@@ -238,7 +247,7 @@ class GroupConfig:
             "associativity" : "16",
             "cache_size" : self.cfg["l3cache_block_size"],
             "mshr_num_entries" : "4096",
-            "network_bw": netCfg.cfg["bandwidth"],
+            "memNIC.network_bw": netCfg.cfg["bandwidth"],   # This parameter belongs to the MemNIC SubComponent
             # Distributed caches
             "num_cache_slices" : self.num_groups * int(self.cfg["l3cache_blocks"]),
             "slice_allocation_policy" : "rr",
@@ -246,7 +255,6 @@ class GroupConfig:
             # "replacement_policy" : "lru",
             # "cache_line_size" : "64",
             # "coherence_protocol" : coherence_protocol,
-            "network_address" : nID,
             "slice_id": self.next_l3_id
             }))
 
@@ -255,7 +263,7 @@ class GroupConfig:
         return (l3cache, "directory", netCfg.cfg["latency"])
 
     def buildGroup(self, groupID, bridge):
-        print "Building group", groupID
+        print("Building group", groupID)
         prefix = "Link:Group%d:"%groupID
         # Build rtr
         rtr = sst.Component("local_rtr", "merlin.hr_router")
@@ -265,9 +273,9 @@ class GroupConfig:
                 int(self.cfg["cores"]) + 
                 int(self.cfg["l3cache_blocks"]) + 
                 int(self.cfg["memory_controllers"]),
-            "topology": "merlin.singlerouter",
             "id": 0
             }))
+        rtr.setSubComponent("topology", "merlin.singlerouter")
         # Connect to bridge
         sst.Link(prefix+"bridgeRtr").connect(
             (rtr, "port0", self.netCfg.cfg["latency"]),

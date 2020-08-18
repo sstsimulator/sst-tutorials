@@ -18,21 +18,24 @@ cache_link_latency = "300ps"
 
 
 # Connect Cores & caches
-print "Configuring CPU..."
+print("Configuring CPU...")
 
 cpu = sst.Component("cpu", "miranda.BaseCPU")
 cpu.addParams({
         'clock':                        clock,
         'verbose':                      int(verbose),
         'max_reqs_cycle':               max_reqs_cycle,
-        'generator':                    'miranda.STREAMBenchGenerator',
-        'generatorParams.n':            streamN,
-        'generatorParams.start_a':      0,
-        'generatorParams.start_b':      streamN * 32,
-        'generatorParams.start_c':      2 * streamN * 32,
-        'generatorParams.operandwidth': 32,
-        'generatorParams.verbose':      int(verbose),
 })
+
+gen = cpu.setSubComponent("generator", "miranda.STREAMBenchGenerator")
+gen.addParams({
+        'n':            streamN,
+        'start_a':      0,
+        'start_b':      streamN * 32,
+        'start_c':      2 * streamN * 32,
+        'operandwidth': 32,
+        'verbose':      int(verbose),
+        })
 
 l1 = sst.Component("l1cache", "memHierarchy.Cache")
 l1.addParams({
@@ -69,15 +72,19 @@ l2.addParams({
         })
 
 
-print "Configuring Memory"
-mem = sst.Component("memory", "memHierarchy.MemController")
-mem.addParams({
-        "backend" : "memHierarchy.simpleMem",
-        "backend.access_time" : "30ns",
-        "backend.mem_size" : memory_capacity,
+print("Configuring Memory")
+memctrl = sst.Component("memory", "memHierarchy.MemController")
+memctrl.addParams({
         "clock" : memory_clock,
-        "do_not_back" : 1,
+        "backing" : "none" # No data values
         })
+
+memory = memctrl.setSubComponent("backend", "memHierarchy.simpleMem")
+memory.addParams({
+        "access_time" : "30ns",
+        "mem_size" : memory_capacity
+        })
+
 
 
 
@@ -88,7 +95,7 @@ l2_cache_link = sst.Link("l2cache_link")
 l2_cache_link.connect((l1, "low_network_0", cache_link_latency), (l2, "high_network_0", cache_link_latency))
 
 mem_link = sst.Link("l2cache_mem_link")
-mem_link.connect(( l2, "low_network_0", cache_link_latency), (mem, "direct_link", cache_link_latency))
+mem_link.connect(( l2, "low_network_0", cache_link_latency), (memctrl, "direct_link", cache_link_latency))
 
 
 # ===============================================================================
@@ -103,6 +110,6 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the EX1 model"
+print("Completed configuring the EX1 model")
 
 

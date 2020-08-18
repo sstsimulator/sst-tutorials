@@ -1,6 +1,9 @@
 import sst
 import os
-import ConfigParser
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 
 
 
@@ -29,31 +32,38 @@ class Config:
         self.coherence_protocol = "MESI"
 
         self.app = cp.get('CPU', 'application')
-        self.coreConfigParams = dict(cp.items(self.app))
+        self.coreConfigAppParams = dict(cp.items(self.app))
         if self.app == 'miranda.STREAMBenchGenerator':
-            self.coreConfig = self._streamCoreConfig
+            self.coreConfig = self._mirandaCoreConfig
+            self.coreGenConfig = self._streamGenConfig
         else:
             raise Exception("Unknown application '%s'"%app)
 
     def getCoreConfig(self, core_id):
         params = dict({
                 'clock': self.clock,
-                'verbose': int(self.verbose)
+                'verbose': int(self.verbose),
                 })
         params.update(self.coreConfig(core_id))
         return params
 
-    def _streamCoreConfig(self, core_id):
-        streamN = int(self.coreConfigParams['total_streamn'])
+    def _mirandaCoreConfig(self, core_id):
         params = dict()
-        params['max_reqs_cycle'] =  self.max_reqs_cycle
-        params['generator'] = 'miranda.STREAMBenchGenerator'
-        params['generatorParams.n'] = streamN
-        params['generatorParams.start_a'] = 0 
-        params['generatorParams.start_b'] = streamN * 32
-        params['generatorParams.start_c'] = 2 * streamN * 32
-        params['generatorParams.operandwidth'] = 32
-        params['generatorParams.verbose'] = int(self.verbose)
+        params['max_reqs_cycle'] = self.max_reqs_cycle
+        return params
+
+    def getCoreGenConfig(self, core_id):
+        return self.coreGenConfig(core_id)
+
+    def _streamGenConfig(self, core_id):
+        streamN = int(self.coreConfigAppParams['total_streamn'])
+        params = dict()
+        params['n'] = streamN
+        params['start_a'] = 0 
+        params['start_b'] = streamN * 32
+        params['start_c'] = 2 * streamN * 32
+        params['operandwidth'] = 32
+        params['verbose'] = int(self.verbose)
         return params
 
     def getL1Params(self):
@@ -90,11 +100,17 @@ class Config:
             #"replacement_policy": "lru",
             })
 
-    def getMemParams(self):
+    def getMemCtrlParams(self):
         return dict({
-            "backend" : "memHierarchy.simpleMem",
-            "backend.access_time" : "30ns",
-            "backend.mem_size" : self.memory_capacity,
             "clock" : self.memory_clock,
-            "do_not_back" : 1,
+            "backing" : "none"
             })
+
+    def getMemBackendType(self):
+        return "memHierarchy.simpleMem"
+
+    def getMemBackendParams(self):
+        return dict({
+            "access_time" : "30ns",
+            "mem_size" : self.memory_capacity
+        })

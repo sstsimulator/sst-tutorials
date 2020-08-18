@@ -1,6 +1,10 @@
 import sst
 import sys
-import ConfigParser, argparse
+import argparse
+try:
+    import ConfigParser
+except ImportError:
+    import configparser as ConfigParser
 from utils import *
 from sst import merlin
 
@@ -37,4 +41,4 @@ sst.setStatisticOutputOptions( {
     "separator" : ", "
     } )
 
-print "Completed configuring the SST Sandy Bridge model"
+print("Completed configuring the SST Sandy Bridge model")

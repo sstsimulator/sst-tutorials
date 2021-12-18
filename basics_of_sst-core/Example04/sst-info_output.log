@@ -1,0 +1,28 @@
+ELEMENT 9 = example ()
+Num Components = 1
+      Component 0: ExampleComponent
+      CATEGORY: UNCATEGORIZED COMPONENT
+         NUM STATISTICS = 0
+         NUM PORTS = 1
+            PORT 0 = link_ (Single port)
+         NUM SUBCOMPONENT SLOTS = 1
+            SUB COMPONENT SLOT 0 = slot_ (Slot to hold a subcomponent) [Example04::ExampleSubComponent]
+         NUM PARAMETERS = 3
+            PARAMETER 0 = debug (Debug location:  (0: NONE, 1: STDOUT, 2: STDERR, 3: FILE)) [0]
+            PARAMETER 1 = clock (Component clock rate) [1GHz]
+            PARAMETER 2 = clockTicks (Number of times the handler is called before ending.) [10]
+    ExampleComponent: Clock element example
+    Using ELI version 0.9.0
+    Compiled on: Oct 25 2020 15:00:24, using file: ExampleComponent.h
+Num SubComponents = 1
+      SubComponent 0: ExampleSubComponent
+      Interface: SST::SubComponent
+         NUM STATISTICS = 0
+         NUM PORTS = 0
+         NUM SUBCOMPONENT SLOTS = 0
+         NUM PARAMETERS = 0
+    ExampleSubComponent: Example subcomponent
+    Using ELI version 0.9.0
+    Compiled on: Oct 25 2020 15:00:24, using file: ExampleSubComponent.h
+Num Modules = 0
+Num SSTPartitioners = 0

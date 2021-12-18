@@ -1,0 +1,47 @@
+WARNING: Building component "example03" with no links assigned.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=27; Thread=0 -- [TRACE] - Entering constructor for component id 0
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=32; Thread=0 -- [INFO] - Initializing component 0.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=33; Thread=0 -- [DEBUG] - Parameters successfully read from config file.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- [DEBUG] - clockTicks = 10
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=35; Thread=0 -- [INFO] - Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=39; Thread=0 -- [DEBUG] - Clock rate is: 1GHz
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=42; Thread=0 -- [INFO] - Successfully initialized clock.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=47; Thread=0 -- [DEBUG] - Component registered as primary component.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=49; Thread=0 -- [DEBUG] - Simulation notified it should not end.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=50; Thread=0 -- [TRACE] - Leaving constructor for component id 0
+Time=0; File=ExampleComponent.cc; Func=setup; Line=61; Thread=0 -- [TRACE] - Entering setup for component id 0
+Time=0; File=ExampleComponent.cc; Func=setup; Line=62; Thread=0 -- [TRACE] - Leaving setup for component id 0
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 1 out of 10
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 2 out of 10
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 3 out of 10
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 4 out of 10
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 5 out of 10
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 6 out of 10
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 7 out of 10
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 8 out of 10
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 9 out of 10
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=80; Thread=0 -- [TRACE] - Entering clock for component id 0
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=88; Thread=0 -- [INFO] - Clock tick count = 10 out of 10
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=91; Thread=0 -- [INFO] - Ending sim.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=95; Thread=0 -- [TRACE] - Leaving clock for component id 0
+Time=10000; File=ExampleComponent.cc; Func=finish; Line=71; Thread=0 -- [TRACE] - Entering finish for component id 0
+Time=10000; File=ExampleComponent.cc; Func=finish; Line=72; Thread=0 -- [TRACE] - Leaving finish for component id 0
+Simulation is complete, simulated time: 10 ns

@@ -10,6 +10,9 @@ libcarWash.so: carWash.cc carGenerator.cc bay.cc
 install:
 	sst-register carWash carWash_LIBDIR=$(CURDIR)
 
+run:
+	sst tests/carWash.py
+
 clean:
 	rm -rf tests/graphs libcarWash.so
 	sst-register -u carWash

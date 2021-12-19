@@ -1,5 +1,7 @@
 # example models that use the Structural Simulation Toolkit
 
+This tutorial works with SST-core release 11.0
+
 A progression of two separate models for a car wash business are provided: `simpleCarWash` and then `advancedCarWash`. 
 The `simpleCarWash` has hard-coded wash bays, while `advancedCarWash` has wash bays as SST subcomponents and thus can be reconfigured.
 

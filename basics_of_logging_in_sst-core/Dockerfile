@@ -41,7 +41,8 @@ ENV PATH="$PATH:$SST_CORE_HOME/bin"
 
 WORKDIR $dir
 
-ARG SSTver=11.1.0
+#ARG SSTver=11.1.0
+ARG SSTver=11.0.0
 
 # from https://github.com/sstsimulator/sst-core/releases/tag/v11.0.0_Final
 COPY sstcore-${SSTver}.tar.gz .
@@ -52,6 +53,12 @@ RUN mv sstcore-${SSTver} sst-core
 RUN cd $dir/sst-core && ./autogen.sh && \
   	./configure --prefix=$SST_CORE_HOME && \
 	  make all install
+
+# the following permissions change is necessary to address the problem that when the command
+# sst-register example example_LIBDIR=/scratch/Example00
+# gets run, there is an error message that says
+# Unable to open configuration at either: /home/sst/sst-core/etc/sst/sstsimulator.conf or //.sst/sstsimulator.conf, one of these files must be editable.
+RUN chmod o+w /home/sst/sst-core/etc/sst/sstsimulator.conf
 
 WORKDIR /home/sst/
 

@@ -12,5 +12,8 @@ libstatsexample.so: 	StatsComponent.cc\
 install:
 	sst-register statsexample statsexample_LIBDIR=$(CURDIR)
 
+run:
+	sst tests/StatsConfig.py
+
 clean:
 	rm -f *.o libstatsexample.so

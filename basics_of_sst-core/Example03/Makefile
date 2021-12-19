@@ -13,5 +13,8 @@ libexample.so: ExampleComponent.cc\
 install:
 	sst-register example example_LIBDIR=$(CURDIR)
 
+run:
+	sst tests/ExampleConfig.py
+
 clean:
 	rm -f *.o libexample.so

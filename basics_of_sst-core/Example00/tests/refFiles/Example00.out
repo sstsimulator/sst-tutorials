@@ -1,0 +1,16 @@
+WARNING: Building component "example00" with no links assigned.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=33; Thread=0 -- Initializing component 0.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=36; Thread=0 -- Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=43; Thread=0 -- Successfully initialized clock.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 1 out of 10
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 2 out of 10
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 3 out of 10
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 4 out of 10
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 5 out of 10
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 6 out of 10
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 7 out of 10
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 8 out of 10
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 9 out of 10
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=90; Thread=0 -- Clock tick count = 10 out of 10
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=93; Thread=0 -- Ending sim.
+Simulation is complete, simulated time: 10 ns

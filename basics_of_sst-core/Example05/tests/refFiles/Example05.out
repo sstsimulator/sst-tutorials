@@ -1,0 +1,124 @@
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- Initializing component 0.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=37; Thread=0 -- Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=75; Thread=0 -- Successfully initialized clock.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- Initializing component 1.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=37; Thread=0 -- Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=75; Thread=0 -- Successfully initialized clock.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=34; Thread=0 -- Initializing component 2.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=37; Thread=0 -- Constructing new Example Instance.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=75; Thread=0 -- Successfully initialized clock.
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 0
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 0
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 0
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 0
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 0
+Time=1000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 0
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 1
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 1
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 1
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 1
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 1
+Time=2000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 1
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 2
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 2
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 2
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 2
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 2
+Time=3000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 2
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 3
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 3
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 3
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 3
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 3
+Time=4000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 3
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 4
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 4
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 4
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 4
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 4
+Time=5000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 4
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 5
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 1 at slot number 1
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 0 at slot number 0
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 2 at slot number 1
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 1 at slot number 0
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 2 at slot number 0
+Time=6000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 0 on component 0 at slot number 1
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 6
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 1 at slot number 1
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 0 at slot number 0
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 2 at slot number 1
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 1 at slot number 0
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 2 at slot number 0
+Time=7000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 1 on component 0 at slot number 1
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 7
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 1 at slot number 1
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 0 at slot number 0
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 2 at slot number 1
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 1 at slot number 0
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 2 at slot number 0
+Time=8000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 2 on component 0 at slot number 1
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 8
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 1 at slot number 1
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 0 at slot number 0
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 2 at slot number 1
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 1 at slot number 0
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 2 at slot number 0
+Time=9000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 3 on component 0 at slot number 1
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 9
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 1 at slot number 1
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 0 at slot number 0
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 2 at slot number 1
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 1 at slot number 0
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 2 at slot number 0
+Time=10000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 4 on component 0 at slot number 1
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 10
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 1 at slot number 1
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 0 at slot number 0
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 2 at slot number 1
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 1 at slot number 0
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 2 at slot number 0
+Time=11000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 5 on component 0 at slot number 1
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 0 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 0, slot 1 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 0 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 1, slot 1 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 0 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=sendCount; Line=85; Thread=0 -- Sending message from component 2, slot 1 with count 11
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 1 at slot number 1
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 0 at slot number 0
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 2 at slot number 1
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 1 at slot number 0
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 2 at slot number 0
+Time=12000; File=ExampleSubComponent.h; Func=messageHandler; Line=119; Thread=0 -- Received clock tick 6 on component 0 at slot number 1
+Simulation is complete, simulated time: 12 ns

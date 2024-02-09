@@ -1,0 +1,54 @@
+Bootstrap: yum
+Include: yum
+
+%setup
+    mkdir -p ${SINGULARITY_ROOTFS}/opt/SST/
+
+%files
+    sstcore-11.0.0.tar.gz /opt/SST
+
+%environment
+    PATH=$PATH:/opt/SST/bin
+    LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+
+%runscript
+    scl enable devtoolset-8 bash
+
+%post
+    SINGULARITY_PREPEND_PATH=/opt/rh/devtoolset-8/root/bin/
+    time yum clean all
+    time yum update -y
+    time yum install -y \
+               devtoolset-8 \
+               doxygen \
+               graphviz \ 
+               time \
+               mpich \
+               python3 \
+               python3-devel \
+               python3-pip \
+               automake
+
+    time yum clean all
+    time python3 -m pip install --find-links=. \
+          black \
+          matplotlib \
+          matplotlib-label-lines \
+          networkx==2.4 \ 
+          numpy==1.19.1 \
+          pandas \
+          setuptools \
+          xmltodict \
+          wheel
+
+    set -e
+    source scl_source enable devtoolset-8 || true
+    PATH=/opt/rh/devtoolset-8/root/bin:$PATH
+
+    cd /opt/SST
+    tar --no-same-owner -xvzf sstcore-11.0.0.tar.gz
+    cd sstcore-11.0.0; ./configure --disable-mpi --prefix=/opt/SST; time make -j all; make install
+
+%help
+    Create the singularity base image with the OS, yum
+    packages, and other software dependencies. 

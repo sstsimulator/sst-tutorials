@@ -163,9 +163,8 @@ sst.setStatisticLoadLevel(5)
 # Enable statistics for all the component
 sst.enableAllStatisticsForAllComponents()
 
-print "\nCompleted configuring the Demo_6 model\n"
+print ("\nCompleted configuring the Demo_7 model\n")
+
 
 ################################ The End ################################
-
-
 

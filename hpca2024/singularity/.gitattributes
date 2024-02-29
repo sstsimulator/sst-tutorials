@@ -1,0 +1,2 @@
+sst.sif filter=lfs diff=lfs merge=lfs -text
+*.sif filter=lfs diff=lfs merge=lfs -text

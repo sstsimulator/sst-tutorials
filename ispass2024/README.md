@@ -1,7 +1,9 @@
 # ISPASS 2024 Tutorials
 
-Presented by Patrick Lavin and Joeseph Kenny
+Presented by Patrick Lavin and Joseph Kenny
+
 May 5, 2024
+
 Indianapolis, IN
 
 ## Abstract

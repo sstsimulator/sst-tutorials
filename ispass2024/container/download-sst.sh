@@ -43,10 +43,3 @@ then
 else
     echo "The pin-3.28 directory already exists. Skipping download."
 fi
-
-if [ ! -f "./build-sst.sh" ];
-then
-    cp ../build-sst.sh .
-else
-    echo "The build-sst.sh script already exists. Skipping download."
-fi

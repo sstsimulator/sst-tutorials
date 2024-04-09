@@ -1,7 +1,9 @@
 # ISPASS 2024 Tutorial Docker Container
 
 ## Building
-podman build -t sstsimulator/ispass2024 .
+```
+./build-container.sh
+```
 
 ## Running Locally
 
@@ -18,9 +20,10 @@ podman login --username sstbuilder docker.io
 ```
 
 ## Codespaces
-Edit `sst-tutorials/.devcontainer/ispass2024/devcontainer.json`.
+### Editing the codespace
+Go to `sst-tutorials/.devcontainer/ispass2024/devcontainer.json`.
 
-Launch the container:
+### Launch the container:
 1. Navigate to https://github.com/sstsimulator/sst-tutorials/
 2. Click `Code` dropdown
 3. Click `...`

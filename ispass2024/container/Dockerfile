@@ -29,6 +29,7 @@ ENV INTEL_PIN_DIR=${INTEL_PIN_DIRECTORY}
 ENV PIN_HOME=${INTEL_PIN_DIRECTORY}
 
 COPY sst /home/jammy/sst
+COPY build-sst.sh /home/jammy/sst/build-sst.sh
 #COPY build-sst.sh /home/jammy/sst/
 #COPY sst-core /home/jammy/sst/sst-core
 #COPY sst-elements /home/jammy/sst/sst-elements

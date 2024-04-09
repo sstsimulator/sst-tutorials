@@ -1,5 +1,5 @@
 {
-  "image": "docker.io/sstbuilder/ispass2024:latest",
+  "image": "sstbuilder/ispass2024:latest",
   "features": {
   }
 }

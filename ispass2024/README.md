@@ -20,7 +20,7 @@ This tutorial will include an introduction to the core concepts in SST, after wh
 
 ## Launch the Codespace
 
-1. Navigate to  https://github.com/sstsimulator/sst-tutorials/ (this page)
+1. Navigate to  https://github.com/sstsimulator/sst-tutorials/ (the top directory of this repo)
 2. Click Code dropdown
 3. Click ...
 4. Click New with options...

@@ -17,6 +17,14 @@ We will introduce attendees to the Structural Simulation Toolkit, SST, as a fram
 
 This tutorial will include an introduction to the core concepts in SST, after which we will look at the many architectural simulation components available in SST-Elements. We will then cover two in-depth examples: single-node, multi-core simulation using memHierarchy, and network simulation using Ember, Firefly, and Merlin.
 
-## Files
+
+## Launch the Codespace
+
+1. Navigate to  https://github.com/sstsimulator/sst-tutorials/ (this page)
+2. Click Code dropdown
+3. Click ...
+4. Click New with options...
+5. Change Dev container configuration dropdown to ispass2024
+6. Create codespace
 
 

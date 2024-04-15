@@ -24,9 +24,9 @@ RUN apt-get update \
 RUN useradd -rm -d /home/jammy -s /bin/bash -g root -u 1001 jammy -p "$(openssl passwd -1 jammy)"
 
 ENV PATH="/home/jammy/sst/install/bin:${PATH}"
-ENV INTEL_PIN_DIRECTORY=/home/jammy/sst/intel-pin
-ENV INTEL_PIN_DIR=${INTEL_PIN_DIRECTORY}
-ENV PIN_HOME=${INTEL_PIN_DIRECTORY}
+#ENV INTEL_PIN_DIRECTORY=/home/jammy/sst/intel-pin
+#ENV INTEL_PIN_DIR=${INTEL_PIN_DIRECTORY}
+#ENV PIN_HOME=${INTEL_PIN_DIRECTORY}
 
 COPY sst /home/jammy/sst
 COPY build-sst.sh /home/jammy/sst/build-sst.sh

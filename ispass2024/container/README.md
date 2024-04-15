@@ -17,6 +17,7 @@ podman run -ti --rm  <id>
 ## Pushing
 ```
 podman login --username sstbuilder docker.io
+podman push 
 ```
 
 ## Codespaces

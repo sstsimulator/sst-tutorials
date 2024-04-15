@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 set -x
+unset SSH_ASKPASS
 
 CORE_BRANCH=master
 ELEMENTS_BRANCH=devel
@@ -33,13 +34,21 @@ else
     echo "The sst-elements directory already exists. Skipping download."
 fi
 
-if [ ! -d "./intel-pin" ];
-then
-    wget https://software.intel.com/sites/landingpage/pintool/downloads/$PIN.tar.gz
-    tar xvzf $PIN.tar.gz
-    mv $PIN intel-pin
-    rm $PIN.tar.gz
-    cd  ..
-else
-    echo "The pin-3.28 directory already exists. Skipping download."
-fi
+#if [ ! -d "./intel-pin" ];
+#then
+#    wget https://software.intel.com/sites/landingpage/pintool/downloads/$PIN.tar.gz
+#    tar xvzf $PIN.tar.gz
+#    mv $PIN intel-pin
+#    rm $PIN.tar.gz
+#    cd  ..
+#else
+#    echo "The pin-3.28 directory already exists. Skipping download."
+#fi
+
+# Tutorial files. Remove before final release.
+#if [ ! -d "./sst-tutorials" ];
+#then
+#    git clone https://github.com/sstsimulator/sst-tutorials.git
+#else
+#    echo "The sst-tutorial directory already exists. Skipping download."
+#fi

@@ -22,7 +22,7 @@ This tutorial will include an introduction to the core concepts in SST, after wh
 
 We have created a Docker container for this tutorial so that we don't have to spend time installing SST. There are several ways you can use this container, or, if you prefer, you can install SST.
 
-## Github Codespace (Strongly preferred)
+### Github Codespace (Strongly preferred)
 
 Github Codespaces provides 180 core hours and 15GB of storage per month for free to all users. This tutorial should only use about 8 core hours, and the container is ~7GB. Other options are available if you have already used your free allocation.
 
@@ -39,7 +39,7 @@ The following instructions will create a Codespace running in a container with S
 
 Done! The setup may take 10 minutes or so as it downloads the container.
 
-## VS Code Dev Containers
+### VS Code Dev Containers
 
 If you have developed with containers locally before, you may prefer this method. We are not experts so we cannot help debug this process, but we have tested it on an M1 Mac.
 
@@ -52,7 +52,7 @@ If you have developed with containers locally before, you may prefer this method
 7. Clone this repo
 8. Start a dev environment. It should automatically use the correct container.
 
-## Run Docker or Podman
+### Run Docker or Podman
 
 If you have a server with Docker or Podman installed, you can run the container there. The container does not have a text editor installed, so it is recommended that you open up a second terminal so that you can edit files.
 
@@ -62,7 +62,18 @@ podman pull sstbuilder/ispass2024
 podman run -v $PWD/sst-tutorials:/home/jammy/sst-tutorials -ti --rm <image id>
 ```
 
-## Install SST Locally
-You may install SST locally if you wish. The instructions are [here](http://sst-simulator.org/SSTPages/SSTBuildAndInstall_13dot1dot0_SeriesDetailedBuildInstructions/).
+### Install SST on your machine
+You may install SST locally if you wish. Here are two options for doing so:
 
+#### Option 1: Use a script
+While not officially supported, there are a pair of scripts I use for setting up SST on new machines.
+
+1. Download [env.sh](https://raw.githubusercontent.com/plavin/plavin.github.io/master/scripts/env.sh) and [init-sst.sh](https://raw.githubusercontent.com/plavin/plavin.github.io/master/scripts/init-sst.sh).
+2. Delete the lines from `env.sh` that contain `PIN`.
+3. `source env.sh`
+4. `./init-sst.sh`
+5. Download this repo (sst-tutorials).
+
+#### Use the official instructions
+The official SST installation guide is [here](http://sst-simulator.org/SSTPages/SSTBuildAndInstall_13dot1dot0_SeriesDetailedBuildInstructions/).
 You will also need to clone this repository.

@@ -20,7 +20,9 @@ This tutorial will include an introduction to the core concepts in SST, after wh
 
 ## Development Environment
 
-We have created a Docker container for this tutorial so that we don't have to spend time installing SST. There are several ways you can use this container, or, if you prefer, you can install SST.
+We have created a Docker container for this tutorial so that we don't have to spend time installing SST. There are several ways you can use this container, or, if you prefer, you can install SST on your own machine.
+
+NOTE: You only need to follow one of the following sections to get set up for this tutorial. We suggest using Codespaces.
 
 ### Github Codespace (Strongly preferred)
 

@@ -74,6 +74,6 @@ While not officially supported, there are a pair of scripts I use for setting up
 4. `./init-sst.sh`
 5. Download this repo (sst-tutorials).
 
-#### Use the official instructions
+#### Option 2: Use the official instructions
 The official SST installation guide is [here](http://sst-simulator.org/SSTPages/SSTBuildAndInstall_13dot1dot0_SeriesDetailedBuildInstructions/).
 You will also need to clone this repository.

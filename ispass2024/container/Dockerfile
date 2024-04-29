@@ -15,6 +15,7 @@ RUN apt-get update \
     ca-certificates \
     python3-dev \
     libltdl-dev \
+    graphviz \
     && apt clean -y \
     && rm -rf /var/lib/apt/lists/*
 

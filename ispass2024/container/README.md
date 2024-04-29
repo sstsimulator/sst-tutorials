@@ -17,7 +17,7 @@ podman run -ti --rm  <id>
 ## Pushing
 ```
 podman login --username sstbuilder docker.io
-podman push 
+podman push sstbuilder/ispass2024
 ```
 
 ## Codespaces

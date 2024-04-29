@@ -17,7 +17,7 @@ make -j8 install
 cd $SCRIPT_DIR/sst-elements
 
 #for elem in balar ember firefly gensa hermes iris llyr mask-mpi mercury osseous samba simpleElementExample simpleSimulation thornhill vanadis zodiac;
-for elem in ariel balar cacheTracer cramSim gensa iris llyr mask-mpi mercury messier mmu opal osseous rdmaNic samba serrano thornhill vaultsim zodiac;
+for elem in ariel balar cacheTracer cramSim gensa iris llyr mask-mpi mercury messier opal osseous rdmaNic samba serrano thornhill vaultsim zodiac;
 do
 	cd src/sst/elements/$elem
 	touch .ignore

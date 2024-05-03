@@ -78,7 +78,7 @@ class CoreGroup:
         dcnic.addParams(params.dcnic)
 
         dclink = dcnic.setSubComponent("linkcontrol", "kingsley.linkcontrol")
-        dclink.addParams(params.memlink)
+        dclink.addParams(params.linkcontrol)
 
         dc2mem = dc.setSubComponent("memlink", "memHierarchy.MemLink")
         dc2mem.addParams(params.memlink)

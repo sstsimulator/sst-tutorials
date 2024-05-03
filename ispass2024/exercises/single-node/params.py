@@ -109,6 +109,8 @@ class Param:
         self.mesh_link_latency   = "100ps"
         self.freq_mhz            = 2000 #TODO:  use 2200MHz?
         self.mesh_link_bw        = str( (self.freq_mhz*1000*1000*self.mesh_flit) ) + "B/s"
+        #self.mesh_link_bw = "2000B/s"
+        self.mesh_link_bw = "32GB/s"
         self.network_buffers     = "288B"
 
         self.noc = {

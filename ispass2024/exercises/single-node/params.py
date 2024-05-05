@@ -11,7 +11,7 @@ class DCParam:
     def __init__(self, ngroup, mem_per_group=1*1024*1024*1024, interleave_size=4*1024):
         self.ngroup = ngroup
         self.interleave_size = interleave_size
-        self.capacity = ngroup * mem_per_group
+        self.capacity = mem_per_group
 
     def __getitem__(self, idx):
         if (idx < 0 or idx > self.ngroup-1):

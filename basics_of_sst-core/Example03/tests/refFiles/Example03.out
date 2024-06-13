@@ -1,0 +1,37 @@
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=42; Thread=0 -- Initializing component 0.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=57; Thread=0 -- Clock rate is: 1GHz
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=42; Thread=0 -- Initializing component 1.
+Time=0; File=ExampleComponent.cc; Func=ExampleComponent; Line=57; Thread=0 -- Clock rate is: 1GHz
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 1.
+Time=1000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 1.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 2.
+Time=2000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 2.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 3.
+Time=3000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 3.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 4.
+Time=4000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 4.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 5.
+Time=5000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 5.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 6.
+Time=6000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 6.
+Time=6000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 1, compared to 5
+Time=6000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 1, compared to 5
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 7.
+Time=7000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 7.
+Time=7000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 2, compared to 5
+Time=7000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 2, compared to 5
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 8.
+Time=8000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 8.
+Time=8000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 3, compared to 5
+Time=8000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 3, compared to 5
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 9.
+Time=9000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 9.
+Time=9000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 4, compared to 5
+Time=9000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 4, compared to 5
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 10.
+Time=10000; File=ExampleComponent.cc; Func=clockTick; Line=104; Thread=0 -- Sending event with payload 10.
+Time=10000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 5, compared to 5
+Time=10000; File=ExampleComponent.cc; Func=messageHandler; Line=130; Thread=0 -- Ending sim for component 1.
+Time=10000; File=ExampleComponent.cc; Func=messageHandler; Line=127; Thread=0 -- Payload value = 5, compared to 5
+Time=10000; File=ExampleComponent.cc; Func=messageHandler; Line=130; Thread=0 -- Ending sim for component 0.
+Simulation is complete, simulated time: 10 ns

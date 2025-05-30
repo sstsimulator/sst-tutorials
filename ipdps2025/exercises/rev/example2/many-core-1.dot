@@ -1,0 +1,50 @@
+graph "sst_simulation" {
+overlap=scale;
+splines=spline;
+node [shape=record];
+graph [style=invis];
+
+subgraph cluster_0 {
+0 [label="{<main> l2cache\nmemHierarchy.Cache}"];
+
+}
+
+subgraph cluster_1 {
+1 [label="{<main> bus\nmemHierarchy.Bus}"];
+
+}
+
+subgraph cluster_2 {
+2 [label="{<main> memory\nmemHierarchy.MemController}"];
+
+4294967298 [color=gray,label="{<main> backend\nmemHierarchy.simpleMem}"];
+
+4294967298:"main" -- 2:"main" [style=dotted];
+
+}
+
+subgraph cluster_3 {
+3 [label="{<main> cpu0\nrevcpu.RevCPU}"];
+
+4294967299 [color=gray,label="{<main> memory\nrevcpu.RevBasicMemCtrl}"];
+
+4294967299:"main" -- 3:"main" [style=dotted];
+
+8589934595 [color=gray,label="{<main> memIface\nmemHierarchy.standardInterface}"];
+
+8589934595:"main" -- 4294967299:"main" [style=dotted];
+
+}
+
+subgraph cluster_4 {
+4 [label="{<main> l1cache0\nmemHierarchy.Cache}"];
+
+}
+
+
+1 -- 0
+0 -- 2
+8589934595 -- 4
+4 -- 1
+
+}

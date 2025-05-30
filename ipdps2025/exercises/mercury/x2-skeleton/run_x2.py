@@ -27,7 +27,7 @@ if __name__ == "__main__":
     platform.addParamSet("operating_system", {
         "verbose" : 0,
         "app1.name" : "x2",
-        "app1.exe_library_name"  : "x2",
+        "app1.exe_library_name"  : "x2-skeleton",
         "app1.verbose" : 0, 
         "app1.dependencies" : ["sumi",],
         "app1.libraries"    : ["systemlibrary:SystemLibrary",

@@ -1,0 +1,110 @@
+graph "sst_simulation" {
+overlap=scale;
+splines=spline;
+node [shape=record];
+graph [style=invis];
+
+subgraph cluster_0 {
+0 [label="{<main> l2cache\nmemHierarchy.Cache}"];
+
+}
+
+subgraph cluster_1 {
+1 [label="{<main> bus\nmemHierarchy.Bus}"];
+
+}
+
+subgraph cluster_2 {
+2 [label="{<main> memory\nmemHierarchy.MemController}"];
+
+4294967298 [color=gray,label="{<main> backend\nmemHierarchy.simpleMem}"];
+
+4294967298:"main" -- 2:"main" [style=dotted];
+
+}
+
+subgraph cluster_3 {
+3 [label="{<main> cpu0\nrevcpu.RevCPU}"];
+
+4294967299 [color=gray,label="{<main> memory\nrevcpu.RevBasicMemCtrl}"];
+
+4294967299:"main" -- 3:"main" [style=dotted];
+
+8589934595 [color=gray,label="{<main> memIface\nmemHierarchy.standardInterface}"];
+
+8589934595:"main" -- 4294967299:"main" [style=dotted];
+
+}
+
+subgraph cluster_4 {
+4 [label="{<main> l1cache0\nmemHierarchy.Cache}"];
+
+}
+
+subgraph cluster_5 {
+5 [label="{<main> cpu1\nrevcpu.RevCPU}"];
+
+4294967301 [color=gray,label="{<main> memory\nrevcpu.RevBasicMemCtrl}"];
+
+4294967301:"main" -- 5:"main" [style=dotted];
+
+8589934597 [color=gray,label="{<main> memIface\nmemHierarchy.standardInterface}"];
+
+8589934597:"main" -- 4294967301:"main" [style=dotted];
+
+}
+
+subgraph cluster_6 {
+6 [label="{<main> l1cache1\nmemHierarchy.Cache}"];
+
+}
+
+subgraph cluster_7 {
+7 [label="{<main> cpu2\nrevcpu.RevCPU}"];
+
+4294967303 [color=gray,label="{<main> memory\nrevcpu.RevBasicMemCtrl}"];
+
+4294967303:"main" -- 7:"main" [style=dotted];
+
+8589934599 [color=gray,label="{<main> memIface\nmemHierarchy.standardInterface}"];
+
+8589934599:"main" -- 4294967303:"main" [style=dotted];
+
+}
+
+subgraph cluster_8 {
+8 [label="{<main> l1cache2\nmemHierarchy.Cache}"];
+
+}
+
+subgraph cluster_9 {
+9 [label="{<main> cpu3\nrevcpu.RevCPU}"];
+
+4294967305 [color=gray,label="{<main> memory\nrevcpu.RevBasicMemCtrl}"];
+
+4294967305:"main" -- 9:"main" [style=dotted];
+
+8589934601 [color=gray,label="{<main> memIface\nmemHierarchy.standardInterface}"];
+
+8589934601:"main" -- 4294967305:"main" [style=dotted];
+
+}
+
+subgraph cluster_10 {
+10 [label="{<main> l1cache3\nmemHierarchy.Cache}"];
+
+}
+
+
+1 -- 0
+0 -- 2
+8589934595 -- 4
+4 -- 1
+8589934597 -- 6
+6 -- 1
+8589934599 -- 8
+8 -- 1
+8589934601 -- 10
+10 -- 1
+
+}

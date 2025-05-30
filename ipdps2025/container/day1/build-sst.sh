@@ -19,7 +19,7 @@ make clean
 cd $SCRIPT_DIR/sst-elements
 
 #Skip some elements to keep container size manageable
-for elem in ariel balar cacheTracer cassini cramSim gensa golem kingsley llyr miranda messier opal osseous prospero rdmaNic samba serrano shogun simpleSimulation thornhill vanadis vaultsim zodiac;
+for elem in ariel balar cacheTracer cassini cramSim gensa golem kingsley llyr messier opal osseous prospero rdmaNic samba serrano simpleSimulation thornhill vanadis vaultsim zodiac;
 do
 	cd src/sst/elements/$elem
 	touch .ignore

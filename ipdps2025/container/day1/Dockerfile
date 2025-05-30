@@ -33,4 +33,7 @@ USER jammy
 WORKDIR /home/jammy/sst
 RUN ls
 RUN ./build-sst.sh
+
+ENV SST_LIB_PATH="/workspaces/sst-tutorials/ipdps2025/exercises/mercury/x2:/workspaces/sst-tutorials/ipdps2025/exercises/mercury/x2-skeleton:/workspaces/sst-tutorials/ipdps2025/exercises/mercury/x2-hgcc:/workspaces/sst-tutorials/ipdps2025/exercises/mercury/halo3d-26:${SST_LIB_PATH}"
+
 WORKDIR /home/jammy
